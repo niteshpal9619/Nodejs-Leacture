@@ -1,7 +1,7 @@
 import Joi from "joi"
 
 const registerController={
-    register(req,res,next){
+    async register(req,res,next){
         //validation
 
         const registerSchema=Joi.object({
@@ -15,6 +15,15 @@ const registerController={
 
         if (error){
             return next(error);
+        }
+
+        try{        
+            const exist=await User.exists({email:req.body.email});
+            if (exist){
+                return next(CustomErrorHandler.alreadyExits('This email is already Exist'))
+            }
+        }catch(error){
+            return next(error)
         }
 
         res.json({msg:"Hello From Express"})
