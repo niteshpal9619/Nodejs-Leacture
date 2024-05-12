@@ -1,4 +1,5 @@
 import Joi from "joi"
+import {User} from '../../models';
 
 const registerController={
     async register(req,res,next){
